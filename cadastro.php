@@ -16,6 +16,9 @@
             $senha = $_POST["senha"];
             $repita_senha = $_POST["repita_senha"];
 
+            $passwordHash = password_hash($senha, PASSWORD_DEFAULT);
+
+
             $errors = array();
 
             if (empty($nome_completo) OR empty($nome_completo) OR empty($email) OR empty($senha) OR empty($repita_senha)) {
@@ -30,12 +33,29 @@
             if ($senha!==$repita_senha) {
                 array_push($errors,"Senhas diferentes");
             }
-
+            require_once "database.php";
+            $sql = "SELECT * FROM usuario WHERE email = '$email'";
+            $result = mysqli_query($conn, $sql);
+            $rowCount = mysqli_num_rows($result);
+            if($rowCount>0){
+                array_push($errors,"Este e-mail já existe!");
+            }
             if (count($errors)>0) {
                 foreach ($errors as $erro) {
                     echo "<div class='alert alert-danger'>$erro</div>";
                 }
             }else{
+                
+                $sql = "INSERT INTO usuário (nome_completo, email, senha) VALUES (?, ?, ?)";
+                $stmt = mysqli_stmt_init($conn);
+                $prepareStmt = mysqli_stmt_prepare($stmt,$sql);
+                if ($prepareStmt) {
+                    mysqli_stmt_bind_param($stmt,"sss",$nome_completo, $email, $passwordHash);
+                    mysqli_stmt_execute($stmt);
+                    echo "<div class='alert alert-success'>Você foi cadastrado com sucesso.</div>";
+                }else{
+                   die("Algo deu errado"); 
+                }
             }
 
         }
