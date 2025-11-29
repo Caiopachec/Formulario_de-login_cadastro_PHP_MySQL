@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Cadastro</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Style.css">
+
 </head>
 <body>
     <div class="container">
@@ -46,7 +48,7 @@
                 }
             }else{
                 
-                $sql = "INSERT INTO usuário (nome_completo, email, senha) VALUES (?, ?, ?)";
+                $sql = "INSERT INTO usuario (nome_completo, email, senha) VALUES (?, ?, ?)";
                 $stmt = mysqli_stmt_init($conn);
                 $prepareStmt = mysqli_stmt_prepare($stmt,$sql);
                 if ($prepareStmt) {
@@ -77,6 +79,7 @@
                 <input type="submit" class="btn btn-primary" value="registrar" name="submit">
             </div>
         </form>
+        <div><p>Já tem uma conta?<a href="login.php">Faça login aqui</a></p></div>
     </div>
 </body>
 </html>
